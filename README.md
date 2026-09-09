@@ -22,7 +22,9 @@ go install github.com/evilmartians/lefthook@latest
 git clone https://github.com/polar-bear-cu/sgt-proto.git
 cd sgt-proto
 lefthook install
+go mod download
 buf generate
+go build ./...
 ```
 
 ### Useful Commands

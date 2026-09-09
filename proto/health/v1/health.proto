@@ -2,8 +2,6 @@ syntax = "proto3";
 
 package health.v1;
 
-option go_package = "github.com/polar-bear-cu/sgt-proto/gen/go/health/v1;healthv1";
-
 message PingRequest {}
 
 message PingResponse {

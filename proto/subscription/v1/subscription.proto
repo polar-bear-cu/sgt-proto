@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package subscription.v1;
+
+message Subscription {
+  string id = 1;
+  string user_id = 2;
+  //   TODO: Fill the rest
+}
+
+message GetSubscriptionsForReportRequest {
+  string user_id = 1;
+}
+
+message GetSubscriptionsForReportResponse {
+  repeated Subscription subscription = 1;
+}
+
+// TODO: Fill Datatype
+
+service SubscriptionService {
+  rpc GetSubscriptionsForReport(GetSubscriptionsForReportRequest) returns (GetSubscriptionsForReportResponse);
+
+  //   TODO: Fill methods
+}

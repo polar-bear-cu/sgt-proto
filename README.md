@@ -2,6 +2,23 @@
 
 gRPC Repo สำหรับ Project Subglutee
 
+### Structure
+
+```
+proto/                   -> Source of Truth
+  <domain>/v1/
+gen/go/                  -> Codegen from `buf generate`
+  <domain>/v1/
+smoke/                   -> Nothing, just a smoke test
+scripts/                 -> Git Hook helper
+.github/workflows/       -> Github Workflow
+buf.yaml                 -> Protobuf Setup
+buf.gen.yaml             -> Protobuf codegen
+lefthook.yaml            -> Git Hooks (commit-msg, pre-commit, pre-push) like `husky` in ts
+```
+
+- แก้ contract → `proto/<domain>/v1/` เท่านั้น แล้ว `buf generate`
+
 ### Prerequisite
 
 1. Go 1.26

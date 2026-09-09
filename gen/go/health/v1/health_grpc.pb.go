@@ -19,7 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	HealthService_Ping_FullMethodName = "/sgt.health.v1.HealthService/Ping"
+	HealthService_Ping_FullMethodName = "/health.v1.HealthService/Ping"
 )
 
 // HealthServiceClient is the client API for HealthService service.
@@ -108,7 +108,7 @@ func _HealthService_Ping_Handler(srv interface{}, ctx context.Context, dec func(
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var HealthService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "sgt.health.v1.HealthService",
+	ServiceName: "health.v1.HealthService",
 	HandlerType: (*HealthServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

@@ -113,14 +113,15 @@ var File_health_v1_health_proto protoreflect.FileDescriptor
 
 const file_health_v1_health_proto_rawDesc = "" +
 	"\n" +
-	"\x16health/v1/health.proto\x12\rsgt.health.v1\"\r\n" +
+	"\x16health/v1/health.proto\x12\thealth.v1\"\r\n" +
 	"\vPingRequest\"E\n" +
 	"\fPingResponse\x12\x18\n" +
 	"\amessage\x18\x01 \x01(\tR\amessage\x12\x1b\n" +
-	"\tserved_by\x18\x02 \x01(\tR\bservedBy2P\n" +
-	"\rHealthService\x12?\n" +
-	"\x04Ping\x12\x1a.sgt.health.v1.PingRequest\x1a\x1b.sgt.health.v1.PingResponseB\xb4\x01\n" +
-	"\x11com.sgt.health.v1B\vHealthProtoP\x01Z<github.com/polar-bear-cu/sgt-proto/gen/go/health/v1;healthv1\xa2\x02\x03SHX\xaa\x02\rSgt.Health.V1\xca\x02\rSgt\\Health\\V1\xe2\x02\x19Sgt\\Health\\V1\\GPBMetadata\xea\x02\x0fSgt::Health::V1b\x06proto3"
+	"\tserved_by\x18\x02 \x01(\tR\bservedBy2H\n" +
+	"\rHealthService\x127\n" +
+	"\x04Ping\x12\x16.health.v1.PingRequest\x1a\x17.health.v1.PingResponseB\x9f\x01\n" +
+	"\rcom.health.v1B\vHealthProtoP\x01Z<github.com/polar-bear-cu/sgt-proto/gen/go/health/v1;healthv1\xa2\x02\x03HXX\xaa\x02\tHealth.V1\xca\x02\tHealth\\V1\xe2\x02\x15Health\\V1\\GPBMetadata\xea\x02\n" +
+	"Health::V1b\x06proto3"
 
 var (
 	file_health_v1_health_proto_rawDescOnce sync.Once
@@ -136,12 +137,12 @@ func file_health_v1_health_proto_rawDescGZIP() []byte {
 
 var file_health_v1_health_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_health_v1_health_proto_goTypes = []any{
-	(*PingRequest)(nil),  // 0: sgt.health.v1.PingRequest
-	(*PingResponse)(nil), // 1: sgt.health.v1.PingResponse
+	(*PingRequest)(nil),  // 0: health.v1.PingRequest
+	(*PingResponse)(nil), // 1: health.v1.PingResponse
 }
 var file_health_v1_health_proto_depIdxs = []int32{
-	0, // 0: sgt.health.v1.HealthService.Ping:input_type -> sgt.health.v1.PingRequest
-	1, // 1: sgt.health.v1.HealthService.Ping:output_type -> sgt.health.v1.PingResponse
+	0, // 0: health.v1.HealthService.Ping:input_type -> health.v1.PingRequest
+	1, // 1: health.v1.HealthService.Ping:output_type -> health.v1.PingResponse
 	1, // [1:2] is the sub-list for method output_type
 	0, // [0:1] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name

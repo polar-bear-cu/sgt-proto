@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package sgt.health.v1;
+
+option go_package = "github.com/polar-bear-cu/sgt-proto/gen/go/health/v1;healthv1";
+
+message PingRequest {}
+
+message PingResponse {
+  string message = 1;
+  string served_by = 2;
+}
+
+service HealthService {
+  rpc Ping(PingRequest) returns (PingResponse);
+}

@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package user.v1;
+
+message User {
+  string id = 1;
+  string email = 2;
+  // Todo: Fill the rest
+}
+
+message FindOrCreateUserRequest {
+  string email = 1;
+  string google_sub = 2;
+  // TODO: Fill the rest
+}
+
+message FindOrCreateUserResponse {
+  User user = 1;
+  bool created = 2; // true = create user, false = find user
+}
+
+message UpdateProfileRequest {
+  string id = 1;
+  // TODO: Fill the rest
+}
+
+message UpdateProfileResponse {
+  User user = 1;
+  // TODO: Fill the rest
+}
+
+service UserService {
+  rpc FindOrCreateUser(FindOrCreateUserRequest) returns (FindOrCreateUserResponse);
+  rpc UpdateProfile(UpdateProfileRequest) returns (UpdateProfileResponse);
+  // TODO: Fill the rest
+}

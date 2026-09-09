@@ -24,7 +24,7 @@ const (
 type Subscription struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"` //   TODO: Fill the rest
+	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"` // TODO: Fill the rest
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -75,7 +75,7 @@ func (x *Subscription) GetUserId() string {
 
 type GetSubscriptionsForReportRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"` // TODO: Fill the rest
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -119,7 +119,7 @@ func (x *GetSubscriptionsForReportRequest) GetUserId() string {
 
 type GetSubscriptionsForReportResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Subscription  []*Subscription        `protobuf:"bytes,1,rep,name=subscription,proto3" json:"subscription,omitempty"`
+	Subscription  []*Subscription        `protobuf:"bytes,1,rep,name=subscription,proto3" json:"subscription,omitempty"` // TODO: Fill the rest
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }

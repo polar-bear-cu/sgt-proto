@@ -13,8 +13,8 @@ example: feat(subscription): add billing reminder RPCs
 
 ## Breaking change?
 
-- [ ] No — additive only (new field / new RPC within `v1`)
-- [ ] Yes — new `v2/` directory added; consumers must regenerate and update call sites
+- [ ] No - additive only (new field / new RPC within `v1`)
+- [ ] Yes - new `v2/` directory added; consumers must regenerate and update call sites
 
 ## Checklist
 

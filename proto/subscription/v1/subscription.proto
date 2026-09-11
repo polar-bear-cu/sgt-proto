@@ -2,9 +2,13 @@ syntax = "proto3";
 
 package subscription.v1;
 
+import "google/protobuf/timestamp.proto";
+
 message Subscription {
   string id = 1;
   string user_id = 2;
+  string name = 3;
+  google.protobuf.Timestamp billing_date = 4;
   // TODO: Fill the rest
 }
 
@@ -18,7 +22,16 @@ message GetSubscriptionsForReportResponse {
   // TODO: Fill the rest
 }
 
+message GetUpcomingForBillingRequest {
+  int32 within_hours = 1;
+}
+
+message GetUpcomingForBillingResponse {
+  repeated Subscription subscription = 1;
+}
+
 service SubscriptionService {
   rpc GetSubscriptionsForReport(GetSubscriptionsForReportRequest) returns (GetSubscriptionsForReportResponse);
+  rpc GetUpcomingForBilling(GetUpcomingForBillingRequest) returns (GetUpcomingForBillingResponse);
   // TODO: Fill the rest
 }

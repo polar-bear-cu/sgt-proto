@@ -29,8 +29,17 @@ message UpdateProfileResponse {
   // TODO: Fill the rest
 }
 
+message GetUserRequest {
+  string id = 1;
+}
+
+message GetUserResponse {
+  User user = 1;
+}
+
 service UserService {
   rpc FindOrCreateUser(FindOrCreateUserRequest) returns (FindOrCreateUserResponse);
   rpc UpdateProfile(UpdateProfileRequest) returns (UpdateProfileResponse);
+  rpc GetUser(GetUserRequest) returns (GetUserResponse);
   // TODO: Fill the rest
 }

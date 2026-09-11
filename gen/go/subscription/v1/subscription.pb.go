@@ -9,6 +9,7 @@ package subscriptionv1
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -24,7 +25,9 @@ const (
 type Subscription struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"` // TODO: Fill the rest
+	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	BillingDate   *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=billing_date,json=billingDate,proto3" json:"billing_date,omitempty"` // TODO: Fill the rest
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -71,6 +74,20 @@ func (x *Subscription) GetUserId() string {
 		return x.UserId
 	}
 	return ""
+}
+
+func (x *Subscription) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *Subscription) GetBillingDate() *timestamppb.Timestamp {
+	if x != nil {
+		return x.BillingDate
+	}
+	return nil
 }
 
 type GetSubscriptionsForReportRequest struct {
@@ -161,20 +178,115 @@ func (x *GetSubscriptionsForReportResponse) GetSubscription() []*Subscription {
 	return nil
 }
 
+type GetUpcomingForBillingRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	WithinHours   int32                  `protobuf:"varint,1,opt,name=within_hours,json=withinHours,proto3" json:"within_hours,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUpcomingForBillingRequest) Reset() {
+	*x = GetUpcomingForBillingRequest{}
+	mi := &file_subscription_v1_subscription_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUpcomingForBillingRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUpcomingForBillingRequest) ProtoMessage() {}
+
+func (x *GetUpcomingForBillingRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_subscription_v1_subscription_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUpcomingForBillingRequest.ProtoReflect.Descriptor instead.
+func (*GetUpcomingForBillingRequest) Descriptor() ([]byte, []int) {
+	return file_subscription_v1_subscription_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GetUpcomingForBillingRequest) GetWithinHours() int32 {
+	if x != nil {
+		return x.WithinHours
+	}
+	return 0
+}
+
+type GetUpcomingForBillingResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Subscription  []*Subscription        `protobuf:"bytes,1,rep,name=subscription,proto3" json:"subscription,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUpcomingForBillingResponse) Reset() {
+	*x = GetUpcomingForBillingResponse{}
+	mi := &file_subscription_v1_subscription_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUpcomingForBillingResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUpcomingForBillingResponse) ProtoMessage() {}
+
+func (x *GetUpcomingForBillingResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_subscription_v1_subscription_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUpcomingForBillingResponse.ProtoReflect.Descriptor instead.
+func (*GetUpcomingForBillingResponse) Descriptor() ([]byte, []int) {
+	return file_subscription_v1_subscription_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *GetUpcomingForBillingResponse) GetSubscription() []*Subscription {
+	if x != nil {
+		return x.Subscription
+	}
+	return nil
+}
+
 var File_subscription_v1_subscription_proto protoreflect.FileDescriptor
 
 const file_subscription_v1_subscription_proto_rawDesc = "" +
 	"\n" +
-	"\"subscription/v1/subscription.proto\x12\x0fsubscription.v1\"7\n" +
+	"\"subscription/v1/subscription.proto\x12\x0fsubscription.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"\x8a\x01\n" +
 	"\fSubscription\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\";\n" +
+	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x12\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\x12=\n" +
+	"\fbilling_date\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\vbillingDate\";\n" +
 	" GetSubscriptionsForReportRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\"f\n" +
 	"!GetSubscriptionsForReportResponse\x12A\n" +
-	"\fsubscription\x18\x01 \x03(\v2\x1d.subscription.v1.SubscriptionR\fsubscription2\x9a\x01\n" +
+	"\fsubscription\x18\x01 \x03(\v2\x1d.subscription.v1.SubscriptionR\fsubscription\"A\n" +
+	"\x1cGetUpcomingForBillingRequest\x12!\n" +
+	"\fwithin_hours\x18\x01 \x01(\x05R\vwithinHours\"b\n" +
+	"\x1dGetUpcomingForBillingResponse\x12A\n" +
+	"\fsubscription\x18\x01 \x03(\v2\x1d.subscription.v1.SubscriptionR\fsubscription2\x92\x02\n" +
 	"\x13SubscriptionService\x12\x82\x01\n" +
-	"\x19GetSubscriptionsForReport\x121.subscription.v1.GetSubscriptionsForReportRequest\x1a2.subscription.v1.GetSubscriptionsForReportResponseB\xcf\x01\n" +
+	"\x19GetSubscriptionsForReport\x121.subscription.v1.GetSubscriptionsForReportRequest\x1a2.subscription.v1.GetSubscriptionsForReportResponse\x12v\n" +
+	"\x15GetUpcomingForBilling\x12-.subscription.v1.GetUpcomingForBillingRequest\x1a..subscription.v1.GetUpcomingForBillingResponseB\xcf\x01\n" +
 	"\x13com.subscription.v1B\x11SubscriptionProtoP\x01ZHgithub.com/polar-bear-cu/sgt-proto/gen/go/subscription/v1;subscriptionv1\xa2\x02\x03SXX\xaa\x02\x0fSubscription.V1\xca\x02\x0fSubscription\\V1\xe2\x02\x1bSubscription\\V1\\GPBMetadata\xea\x02\x10Subscription::V1b\x06proto3"
 
 var (
@@ -189,21 +301,28 @@ func file_subscription_v1_subscription_proto_rawDescGZIP() []byte {
 	return file_subscription_v1_subscription_proto_rawDescData
 }
 
-var file_subscription_v1_subscription_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_subscription_v1_subscription_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_subscription_v1_subscription_proto_goTypes = []any{
 	(*Subscription)(nil),                      // 0: subscription.v1.Subscription
 	(*GetSubscriptionsForReportRequest)(nil),  // 1: subscription.v1.GetSubscriptionsForReportRequest
 	(*GetSubscriptionsForReportResponse)(nil), // 2: subscription.v1.GetSubscriptionsForReportResponse
+	(*GetUpcomingForBillingRequest)(nil),      // 3: subscription.v1.GetUpcomingForBillingRequest
+	(*GetUpcomingForBillingResponse)(nil),     // 4: subscription.v1.GetUpcomingForBillingResponse
+	(*timestamppb.Timestamp)(nil),             // 5: google.protobuf.Timestamp
 }
 var file_subscription_v1_subscription_proto_depIdxs = []int32{
-	0, // 0: subscription.v1.GetSubscriptionsForReportResponse.subscription:type_name -> subscription.v1.Subscription
-	1, // 1: subscription.v1.SubscriptionService.GetSubscriptionsForReport:input_type -> subscription.v1.GetSubscriptionsForReportRequest
-	2, // 2: subscription.v1.SubscriptionService.GetSubscriptionsForReport:output_type -> subscription.v1.GetSubscriptionsForReportResponse
-	2, // [2:3] is the sub-list for method output_type
-	1, // [1:2] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	5, // 0: subscription.v1.Subscription.billing_date:type_name -> google.protobuf.Timestamp
+	0, // 1: subscription.v1.GetSubscriptionsForReportResponse.subscription:type_name -> subscription.v1.Subscription
+	0, // 2: subscription.v1.GetUpcomingForBillingResponse.subscription:type_name -> subscription.v1.Subscription
+	1, // 3: subscription.v1.SubscriptionService.GetSubscriptionsForReport:input_type -> subscription.v1.GetSubscriptionsForReportRequest
+	3, // 4: subscription.v1.SubscriptionService.GetUpcomingForBilling:input_type -> subscription.v1.GetUpcomingForBillingRequest
+	2, // 5: subscription.v1.SubscriptionService.GetSubscriptionsForReport:output_type -> subscription.v1.GetSubscriptionsForReportResponse
+	4, // 6: subscription.v1.SubscriptionService.GetUpcomingForBilling:output_type -> subscription.v1.GetUpcomingForBillingResponse
+	5, // [5:7] is the sub-list for method output_type
+	3, // [3:5] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_subscription_v1_subscription_proto_init() }
@@ -217,7 +336,7 @@ func file_subscription_v1_subscription_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_subscription_v1_subscription_proto_rawDesc), len(file_subscription_v1_subscription_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

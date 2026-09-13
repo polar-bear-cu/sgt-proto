@@ -5,12 +5,16 @@ package user.v1;
 message User {
   string id = 1;
   string email = 2;
+  string name = 3;
+  string picture_url = 4;
   // Todo: Fill the rest
 }
 
 message FindOrCreateUserRequest {
   string email = 1;
   string google_sub = 2;
+  string name = 3;
+  string picture_url = 4;
   // TODO: Fill the rest
 }
 

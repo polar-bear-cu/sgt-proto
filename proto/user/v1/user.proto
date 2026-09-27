@@ -7,7 +7,7 @@ message User {
   string email = 2;
   string name = 3;
   string picture_url = 4;
-  // Todo: Fill the rest
+  string role = 5;
 }
 
 message FindOrCreateUserRequest {

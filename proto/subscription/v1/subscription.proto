@@ -9,7 +9,12 @@ message Subscription {
   string user_id = 2;
   string name = 3;
   google.protobuf.Timestamp billing_date = 4;
-  // TODO: Fill the rest
+  double cost = 5;
+  string type = 6; // monthly | yearly
+  string category = 7;
+  string status = 8; // active | free_trial | inactive
+  google.protobuf.Timestamp ft_end_date = 9; // unset unless the record has a trial end date
+  int64 reminder_time_in_advanced = 10; // days
 }
 
 message GetSubscriptionsForReportRequest {
@@ -30,8 +35,34 @@ message GetUpcomingForBillingResponse {
   repeated Subscription subscription = 1;
 }
 
+message ListDueRemindersRequest {
+  string date = 1; // YYYY-MM-DD, Asia/Bangkok calendar day of the check
+}
+
+message DueReminder {
+  Subscription subscription = 1;
+  bool billing_due = 2;
+  bool trial_end_due = 3;
+}
+
+message ListDueRemindersResponse {
+  repeated DueReminder reminders = 1;
+}
+
+message AdvanceBillingDatesRequest {
+  string date = 1; // YYYY-MM-DD, Asia/Bangkok calendar day of the run
+}
+
+message AdvanceBillingDatesResponse {
+  int64 advanced_count = 1;
+  int64 trials_converted_count = 2;
+}
+
 service SubscriptionService {
   rpc GetSubscriptionsForReport(GetSubscriptionsForReportRequest) returns (GetSubscriptionsForReportResponse);
-  rpc GetUpcomingForBilling(GetUpcomingForBillingRequest) returns (GetUpcomingForBillingResponse);
-  // TODO: Fill the rest
+  rpc GetUpcomingForBilling(GetUpcomingForBillingRequest) returns (GetUpcomingForBillingResponse) {
+    option deprecated = true;
+  }
+  rpc ListDueReminders(ListDueRemindersRequest) returns (ListDueRemindersResponse);
+  rpc AdvanceBillingDates(AdvanceBillingDatesRequest) returns (AdvanceBillingDatesResponse);
 }

@@ -8,6 +8,9 @@ message User {
   string name = 3;
   string picture_url = 4;
   string role = 5;
+  string created_at = 6;
+  string last_login_at = 7;
+  int32 time_in_advanced = 8;
 }
 
 message FindOrCreateUserRequest {

@@ -23,13 +23,19 @@ const (
 )
 
 type Subscription struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
-	BillingDate   *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=billing_date,json=billingDate,proto3" json:"billing_date,omitempty"` // TODO: Fill the rest
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state                  protoimpl.MessageState `protogen:"open.v1"`
+	Id                     string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	UserId                 string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Name                   string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	BillingDate            *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=billing_date,json=billingDate,proto3" json:"billing_date,omitempty"`
+	Cost                   float64                `protobuf:"fixed64,5,opt,name=cost,proto3" json:"cost,omitempty"`
+	Type                   string                 `protobuf:"bytes,6,opt,name=type,proto3" json:"type,omitempty"` // monthly | yearly
+	Category               string                 `protobuf:"bytes,7,opt,name=category,proto3" json:"category,omitempty"`
+	Status                 string                 `protobuf:"bytes,8,opt,name=status,proto3" json:"status,omitempty"`                                                                     // active | free_trial | inactive
+	FtEndDate              *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=ft_end_date,json=ftEndDate,proto3" json:"ft_end_date,omitempty"`                                            // unset unless the record has a trial end date
+	ReminderTimeInAdvanced int64                  `protobuf:"varint,10,opt,name=reminder_time_in_advanced,json=reminderTimeInAdvanced,proto3" json:"reminder_time_in_advanced,omitempty"` // days
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
 }
 
 func (x *Subscription) Reset() {
@@ -88,6 +94,48 @@ func (x *Subscription) GetBillingDate() *timestamppb.Timestamp {
 		return x.BillingDate
 	}
 	return nil
+}
+
+func (x *Subscription) GetCost() float64 {
+	if x != nil {
+		return x.Cost
+	}
+	return 0
+}
+
+func (x *Subscription) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+func (x *Subscription) GetCategory() string {
+	if x != nil {
+		return x.Category
+	}
+	return ""
+}
+
+func (x *Subscription) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *Subscription) GetFtEndDate() *timestamppb.Timestamp {
+	if x != nil {
+		return x.FtEndDate
+	}
+	return nil
+}
+
+func (x *Subscription) GetReminderTimeInAdvanced() int64 {
+	if x != nil {
+		return x.ReminderTimeInAdvanced
+	}
+	return 0
 }
 
 type GetSubscriptionsForReportRequest struct {
@@ -266,16 +314,267 @@ func (x *GetUpcomingForBillingResponse) GetSubscription() []*Subscription {
 	return nil
 }
 
+type ListDueRemindersRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Date          string                 `protobuf:"bytes,1,opt,name=date,proto3" json:"date,omitempty"` // YYYY-MM-DD, Asia/Bangkok calendar day of the check
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListDueRemindersRequest) Reset() {
+	*x = ListDueRemindersRequest{}
+	mi := &file_subscription_v1_subscription_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListDueRemindersRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListDueRemindersRequest) ProtoMessage() {}
+
+func (x *ListDueRemindersRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_subscription_v1_subscription_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListDueRemindersRequest.ProtoReflect.Descriptor instead.
+func (*ListDueRemindersRequest) Descriptor() ([]byte, []int) {
+	return file_subscription_v1_subscription_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *ListDueRemindersRequest) GetDate() string {
+	if x != nil {
+		return x.Date
+	}
+	return ""
+}
+
+type DueReminder struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Subscription  *Subscription          `protobuf:"bytes,1,opt,name=subscription,proto3" json:"subscription,omitempty"`
+	BillingDue    bool                   `protobuf:"varint,2,opt,name=billing_due,json=billingDue,proto3" json:"billing_due,omitempty"`
+	TrialEndDue   bool                   `protobuf:"varint,3,opt,name=trial_end_due,json=trialEndDue,proto3" json:"trial_end_due,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DueReminder) Reset() {
+	*x = DueReminder{}
+	mi := &file_subscription_v1_subscription_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DueReminder) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DueReminder) ProtoMessage() {}
+
+func (x *DueReminder) ProtoReflect() protoreflect.Message {
+	mi := &file_subscription_v1_subscription_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DueReminder.ProtoReflect.Descriptor instead.
+func (*DueReminder) Descriptor() ([]byte, []int) {
+	return file_subscription_v1_subscription_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *DueReminder) GetSubscription() *Subscription {
+	if x != nil {
+		return x.Subscription
+	}
+	return nil
+}
+
+func (x *DueReminder) GetBillingDue() bool {
+	if x != nil {
+		return x.BillingDue
+	}
+	return false
+}
+
+func (x *DueReminder) GetTrialEndDue() bool {
+	if x != nil {
+		return x.TrialEndDue
+	}
+	return false
+}
+
+type ListDueRemindersResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Reminders     []*DueReminder         `protobuf:"bytes,1,rep,name=reminders,proto3" json:"reminders,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListDueRemindersResponse) Reset() {
+	*x = ListDueRemindersResponse{}
+	mi := &file_subscription_v1_subscription_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListDueRemindersResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListDueRemindersResponse) ProtoMessage() {}
+
+func (x *ListDueRemindersResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_subscription_v1_subscription_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListDueRemindersResponse.ProtoReflect.Descriptor instead.
+func (*ListDueRemindersResponse) Descriptor() ([]byte, []int) {
+	return file_subscription_v1_subscription_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *ListDueRemindersResponse) GetReminders() []*DueReminder {
+	if x != nil {
+		return x.Reminders
+	}
+	return nil
+}
+
+type AdvanceBillingDatesRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Date          string                 `protobuf:"bytes,1,opt,name=date,proto3" json:"date,omitempty"` // YYYY-MM-DD, Asia/Bangkok calendar day of the run
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AdvanceBillingDatesRequest) Reset() {
+	*x = AdvanceBillingDatesRequest{}
+	mi := &file_subscription_v1_subscription_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AdvanceBillingDatesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AdvanceBillingDatesRequest) ProtoMessage() {}
+
+func (x *AdvanceBillingDatesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_subscription_v1_subscription_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AdvanceBillingDatesRequest.ProtoReflect.Descriptor instead.
+func (*AdvanceBillingDatesRequest) Descriptor() ([]byte, []int) {
+	return file_subscription_v1_subscription_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *AdvanceBillingDatesRequest) GetDate() string {
+	if x != nil {
+		return x.Date
+	}
+	return ""
+}
+
+type AdvanceBillingDatesResponse struct {
+	state                protoimpl.MessageState `protogen:"open.v1"`
+	AdvancedCount        int64                  `protobuf:"varint,1,opt,name=advanced_count,json=advancedCount,proto3" json:"advanced_count,omitempty"`
+	TrialsConvertedCount int64                  `protobuf:"varint,2,opt,name=trials_converted_count,json=trialsConvertedCount,proto3" json:"trials_converted_count,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
+}
+
+func (x *AdvanceBillingDatesResponse) Reset() {
+	*x = AdvanceBillingDatesResponse{}
+	mi := &file_subscription_v1_subscription_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AdvanceBillingDatesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AdvanceBillingDatesResponse) ProtoMessage() {}
+
+func (x *AdvanceBillingDatesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_subscription_v1_subscription_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AdvanceBillingDatesResponse.ProtoReflect.Descriptor instead.
+func (*AdvanceBillingDatesResponse) Descriptor() ([]byte, []int) {
+	return file_subscription_v1_subscription_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *AdvanceBillingDatesResponse) GetAdvancedCount() int64 {
+	if x != nil {
+		return x.AdvancedCount
+	}
+	return 0
+}
+
+func (x *AdvanceBillingDatesResponse) GetTrialsConvertedCount() int64 {
+	if x != nil {
+		return x.TrialsConvertedCount
+	}
+	return 0
+}
+
 var File_subscription_v1_subscription_proto protoreflect.FileDescriptor
 
 const file_subscription_v1_subscription_proto_rawDesc = "" +
 	"\n" +
-	"\"subscription/v1/subscription.proto\x12\x0fsubscription.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"\x8a\x01\n" +
+	"\"subscription/v1/subscription.proto\x12\x0fsubscription.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"\xdd\x02\n" +
 	"\fSubscription\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x12\n" +
 	"\x04name\x18\x03 \x01(\tR\x04name\x12=\n" +
-	"\fbilling_date\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\vbillingDate\";\n" +
+	"\fbilling_date\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\vbillingDate\x12\x12\n" +
+	"\x04cost\x18\x05 \x01(\x01R\x04cost\x12\x12\n" +
+	"\x04type\x18\x06 \x01(\tR\x04type\x12\x1a\n" +
+	"\bcategory\x18\a \x01(\tR\bcategory\x12\x16\n" +
+	"\x06status\x18\b \x01(\tR\x06status\x12:\n" +
+	"\vft_end_date\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\tftEndDate\x129\n" +
+	"\x19reminder_time_in_advanced\x18\n" +
+	" \x01(\x03R\x16reminderTimeInAdvanced\";\n" +
 	" GetSubscriptionsForReportRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\"f\n" +
 	"!GetSubscriptionsForReportResponse\x12A\n" +
@@ -283,10 +582,26 @@ const file_subscription_v1_subscription_proto_rawDesc = "" +
 	"\x1cGetUpcomingForBillingRequest\x12!\n" +
 	"\fwithin_hours\x18\x01 \x01(\x05R\vwithinHours\"b\n" +
 	"\x1dGetUpcomingForBillingResponse\x12A\n" +
-	"\fsubscription\x18\x01 \x03(\v2\x1d.subscription.v1.SubscriptionR\fsubscription2\x92\x02\n" +
+	"\fsubscription\x18\x01 \x03(\v2\x1d.subscription.v1.SubscriptionR\fsubscription\"-\n" +
+	"\x17ListDueRemindersRequest\x12\x12\n" +
+	"\x04date\x18\x01 \x01(\tR\x04date\"\x95\x01\n" +
+	"\vDueReminder\x12A\n" +
+	"\fsubscription\x18\x01 \x01(\v2\x1d.subscription.v1.SubscriptionR\fsubscription\x12\x1f\n" +
+	"\vbilling_due\x18\x02 \x01(\bR\n" +
+	"billingDue\x12\"\n" +
+	"\rtrial_end_due\x18\x03 \x01(\bR\vtrialEndDue\"V\n" +
+	"\x18ListDueRemindersResponse\x12:\n" +
+	"\treminders\x18\x01 \x03(\v2\x1c.subscription.v1.DueReminderR\treminders\"0\n" +
+	"\x1aAdvanceBillingDatesRequest\x12\x12\n" +
+	"\x04date\x18\x01 \x01(\tR\x04date\"z\n" +
+	"\x1bAdvanceBillingDatesResponse\x12%\n" +
+	"\x0eadvanced_count\x18\x01 \x01(\x03R\radvancedCount\x124\n" +
+	"\x16trials_converted_count\x18\x02 \x01(\x03R\x14trialsConvertedCount2\xf2\x03\n" +
 	"\x13SubscriptionService\x12\x82\x01\n" +
-	"\x19GetSubscriptionsForReport\x121.subscription.v1.GetSubscriptionsForReportRequest\x1a2.subscription.v1.GetSubscriptionsForReportResponse\x12v\n" +
-	"\x15GetUpcomingForBilling\x12-.subscription.v1.GetUpcomingForBillingRequest\x1a..subscription.v1.GetUpcomingForBillingResponseB\xcf\x01\n" +
+	"\x19GetSubscriptionsForReport\x121.subscription.v1.GetSubscriptionsForReportRequest\x1a2.subscription.v1.GetSubscriptionsForReportResponse\x12{\n" +
+	"\x15GetUpcomingForBilling\x12-.subscription.v1.GetUpcomingForBillingRequest\x1a..subscription.v1.GetUpcomingForBillingResponse\"\x03\x88\x02\x01\x12g\n" +
+	"\x10ListDueReminders\x12(.subscription.v1.ListDueRemindersRequest\x1a).subscription.v1.ListDueRemindersResponse\x12p\n" +
+	"\x13AdvanceBillingDates\x12+.subscription.v1.AdvanceBillingDatesRequest\x1a,.subscription.v1.AdvanceBillingDatesResponseB\xcf\x01\n" +
 	"\x13com.subscription.v1B\x11SubscriptionProtoP\x01ZHgithub.com/polar-bear-cu/sgt-proto/gen/go/subscription/v1;subscriptionv1\xa2\x02\x03SXX\xaa\x02\x0fSubscription.V1\xca\x02\x0fSubscription\\V1\xe2\x02\x1bSubscription\\V1\\GPBMetadata\xea\x02\x10Subscription::V1b\x06proto3"
 
 var (
@@ -301,28 +616,40 @@ func file_subscription_v1_subscription_proto_rawDescGZIP() []byte {
 	return file_subscription_v1_subscription_proto_rawDescData
 }
 
-var file_subscription_v1_subscription_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_subscription_v1_subscription_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_subscription_v1_subscription_proto_goTypes = []any{
 	(*Subscription)(nil),                      // 0: subscription.v1.Subscription
 	(*GetSubscriptionsForReportRequest)(nil),  // 1: subscription.v1.GetSubscriptionsForReportRequest
 	(*GetSubscriptionsForReportResponse)(nil), // 2: subscription.v1.GetSubscriptionsForReportResponse
 	(*GetUpcomingForBillingRequest)(nil),      // 3: subscription.v1.GetUpcomingForBillingRequest
 	(*GetUpcomingForBillingResponse)(nil),     // 4: subscription.v1.GetUpcomingForBillingResponse
-	(*timestamppb.Timestamp)(nil),             // 5: google.protobuf.Timestamp
+	(*ListDueRemindersRequest)(nil),           // 5: subscription.v1.ListDueRemindersRequest
+	(*DueReminder)(nil),                       // 6: subscription.v1.DueReminder
+	(*ListDueRemindersResponse)(nil),          // 7: subscription.v1.ListDueRemindersResponse
+	(*AdvanceBillingDatesRequest)(nil),        // 8: subscription.v1.AdvanceBillingDatesRequest
+	(*AdvanceBillingDatesResponse)(nil),       // 9: subscription.v1.AdvanceBillingDatesResponse
+	(*timestamppb.Timestamp)(nil),             // 10: google.protobuf.Timestamp
 }
 var file_subscription_v1_subscription_proto_depIdxs = []int32{
-	5, // 0: subscription.v1.Subscription.billing_date:type_name -> google.protobuf.Timestamp
-	0, // 1: subscription.v1.GetSubscriptionsForReportResponse.subscription:type_name -> subscription.v1.Subscription
-	0, // 2: subscription.v1.GetUpcomingForBillingResponse.subscription:type_name -> subscription.v1.Subscription
-	1, // 3: subscription.v1.SubscriptionService.GetSubscriptionsForReport:input_type -> subscription.v1.GetSubscriptionsForReportRequest
-	3, // 4: subscription.v1.SubscriptionService.GetUpcomingForBilling:input_type -> subscription.v1.GetUpcomingForBillingRequest
-	2, // 5: subscription.v1.SubscriptionService.GetSubscriptionsForReport:output_type -> subscription.v1.GetSubscriptionsForReportResponse
-	4, // 6: subscription.v1.SubscriptionService.GetUpcomingForBilling:output_type -> subscription.v1.GetUpcomingForBillingResponse
-	5, // [5:7] is the sub-list for method output_type
-	3, // [3:5] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	10, // 0: subscription.v1.Subscription.billing_date:type_name -> google.protobuf.Timestamp
+	10, // 1: subscription.v1.Subscription.ft_end_date:type_name -> google.protobuf.Timestamp
+	0,  // 2: subscription.v1.GetSubscriptionsForReportResponse.subscription:type_name -> subscription.v1.Subscription
+	0,  // 3: subscription.v1.GetUpcomingForBillingResponse.subscription:type_name -> subscription.v1.Subscription
+	0,  // 4: subscription.v1.DueReminder.subscription:type_name -> subscription.v1.Subscription
+	6,  // 5: subscription.v1.ListDueRemindersResponse.reminders:type_name -> subscription.v1.DueReminder
+	1,  // 6: subscription.v1.SubscriptionService.GetSubscriptionsForReport:input_type -> subscription.v1.GetSubscriptionsForReportRequest
+	3,  // 7: subscription.v1.SubscriptionService.GetUpcomingForBilling:input_type -> subscription.v1.GetUpcomingForBillingRequest
+	5,  // 8: subscription.v1.SubscriptionService.ListDueReminders:input_type -> subscription.v1.ListDueRemindersRequest
+	8,  // 9: subscription.v1.SubscriptionService.AdvanceBillingDates:input_type -> subscription.v1.AdvanceBillingDatesRequest
+	2,  // 10: subscription.v1.SubscriptionService.GetSubscriptionsForReport:output_type -> subscription.v1.GetSubscriptionsForReportResponse
+	4,  // 11: subscription.v1.SubscriptionService.GetUpcomingForBilling:output_type -> subscription.v1.GetUpcomingForBillingResponse
+	7,  // 12: subscription.v1.SubscriptionService.ListDueReminders:output_type -> subscription.v1.ListDueRemindersResponse
+	9,  // 13: subscription.v1.SubscriptionService.AdvanceBillingDates:output_type -> subscription.v1.AdvanceBillingDatesResponse
+	10, // [10:14] is the sub-list for method output_type
+	6,  // [6:10] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_subscription_v1_subscription_proto_init() }
@@ -336,7 +663,7 @@ func file_subscription_v1_subscription_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_subscription_v1_subscription_proto_rawDesc), len(file_subscription_v1_subscription_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

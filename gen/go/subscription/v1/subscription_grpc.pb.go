@@ -21,6 +21,8 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	SubscriptionService_GetSubscriptionsForReport_FullMethodName = "/subscription.v1.SubscriptionService/GetSubscriptionsForReport"
 	SubscriptionService_GetUpcomingForBilling_FullMethodName     = "/subscription.v1.SubscriptionService/GetUpcomingForBilling"
+	SubscriptionService_ListDueReminders_FullMethodName          = "/subscription.v1.SubscriptionService/ListDueReminders"
+	SubscriptionService_AdvanceBillingDates_FullMethodName       = "/subscription.v1.SubscriptionService/AdvanceBillingDates"
 )
 
 // SubscriptionServiceClient is the client API for SubscriptionService service.
@@ -28,7 +30,10 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SubscriptionServiceClient interface {
 	GetSubscriptionsForReport(ctx context.Context, in *GetSubscriptionsForReportRequest, opts ...grpc.CallOption) (*GetSubscriptionsForReportResponse, error)
+	// Deprecated: Do not use.
 	GetUpcomingForBilling(ctx context.Context, in *GetUpcomingForBillingRequest, opts ...grpc.CallOption) (*GetUpcomingForBillingResponse, error)
+	ListDueReminders(ctx context.Context, in *ListDueRemindersRequest, opts ...grpc.CallOption) (*ListDueRemindersResponse, error)
+	AdvanceBillingDates(ctx context.Context, in *AdvanceBillingDatesRequest, opts ...grpc.CallOption) (*AdvanceBillingDatesResponse, error)
 }
 
 type subscriptionServiceClient struct {
@@ -49,10 +54,31 @@ func (c *subscriptionServiceClient) GetSubscriptionsForReport(ctx context.Contex
 	return out, nil
 }
 
+// Deprecated: Do not use.
 func (c *subscriptionServiceClient) GetUpcomingForBilling(ctx context.Context, in *GetUpcomingForBillingRequest, opts ...grpc.CallOption) (*GetUpcomingForBillingResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetUpcomingForBillingResponse)
 	err := c.cc.Invoke(ctx, SubscriptionService_GetUpcomingForBilling_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *subscriptionServiceClient) ListDueReminders(ctx context.Context, in *ListDueRemindersRequest, opts ...grpc.CallOption) (*ListDueRemindersResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListDueRemindersResponse)
+	err := c.cc.Invoke(ctx, SubscriptionService_ListDueReminders_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *subscriptionServiceClient) AdvanceBillingDates(ctx context.Context, in *AdvanceBillingDatesRequest, opts ...grpc.CallOption) (*AdvanceBillingDatesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AdvanceBillingDatesResponse)
+	err := c.cc.Invoke(ctx, SubscriptionService_AdvanceBillingDates_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -64,7 +90,10 @@ func (c *subscriptionServiceClient) GetUpcomingForBilling(ctx context.Context, i
 // for forward compatibility.
 type SubscriptionServiceServer interface {
 	GetSubscriptionsForReport(context.Context, *GetSubscriptionsForReportRequest) (*GetSubscriptionsForReportResponse, error)
+	// Deprecated: Do not use.
 	GetUpcomingForBilling(context.Context, *GetUpcomingForBillingRequest) (*GetUpcomingForBillingResponse, error)
+	ListDueReminders(context.Context, *ListDueRemindersRequest) (*ListDueRemindersResponse, error)
+	AdvanceBillingDates(context.Context, *AdvanceBillingDatesRequest) (*AdvanceBillingDatesResponse, error)
 	mustEmbedUnimplementedSubscriptionServiceServer()
 }
 
@@ -80,6 +109,12 @@ func (UnimplementedSubscriptionServiceServer) GetSubscriptionsForReport(context.
 }
 func (UnimplementedSubscriptionServiceServer) GetUpcomingForBilling(context.Context, *GetUpcomingForBillingRequest) (*GetUpcomingForBillingResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetUpcomingForBilling not implemented")
+}
+func (UnimplementedSubscriptionServiceServer) ListDueReminders(context.Context, *ListDueRemindersRequest) (*ListDueRemindersResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListDueReminders not implemented")
+}
+func (UnimplementedSubscriptionServiceServer) AdvanceBillingDates(context.Context, *AdvanceBillingDatesRequest) (*AdvanceBillingDatesResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method AdvanceBillingDates not implemented")
 }
 func (UnimplementedSubscriptionServiceServer) mustEmbedUnimplementedSubscriptionServiceServer() {}
 func (UnimplementedSubscriptionServiceServer) testEmbeddedByValue()                             {}
@@ -138,6 +173,42 @@ func _SubscriptionService_GetUpcomingForBilling_Handler(srv interface{}, ctx con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SubscriptionService_ListDueReminders_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListDueRemindersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SubscriptionServiceServer).ListDueReminders(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SubscriptionService_ListDueReminders_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SubscriptionServiceServer).ListDueReminders(ctx, req.(*ListDueRemindersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SubscriptionService_AdvanceBillingDates_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AdvanceBillingDatesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SubscriptionServiceServer).AdvanceBillingDates(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SubscriptionService_AdvanceBillingDates_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SubscriptionServiceServer).AdvanceBillingDates(ctx, req.(*AdvanceBillingDatesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SubscriptionService_ServiceDesc is the grpc.ServiceDesc for SubscriptionService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -152,6 +223,14 @@ var SubscriptionService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUpcomingForBilling",
 			Handler:    _SubscriptionService_GetUpcomingForBilling_Handler,
+		},
+		{
+			MethodName: "ListDueReminders",
+			Handler:    _SubscriptionService_ListDueReminders_Handler,
+		},
+		{
+			MethodName: "AdvanceBillingDates",
+			Handler:    _SubscriptionService_AdvanceBillingDates_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

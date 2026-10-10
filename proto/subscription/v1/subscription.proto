@@ -58,6 +58,14 @@ message AdvanceBillingDatesResponse {
   int64 trials_converted_count = 2;
 }
 
+message DeleteSubscriptionsByUserRequest {
+  string user_id = 1;
+}
+
+message DeleteSubscriptionsByUserResponse {
+  int64 deleted_count = 1;
+}
+
 service SubscriptionService {
   rpc GetSubscriptionsForReport(GetSubscriptionsForReportRequest) returns (GetSubscriptionsForReportResponse);
   rpc GetUpcomingForBilling(GetUpcomingForBillingRequest) returns (GetUpcomingForBillingResponse) {
@@ -65,4 +73,5 @@ service SubscriptionService {
   }
   rpc ListDueReminders(ListDueRemindersRequest) returns (ListDueRemindersResponse);
   rpc AdvanceBillingDates(AdvanceBillingDatesRequest) returns (AdvanceBillingDatesResponse);
+  rpc DeleteSubscriptionsByUser(DeleteSubscriptionsByUserRequest) returns (DeleteSubscriptionsByUserResponse);
 }

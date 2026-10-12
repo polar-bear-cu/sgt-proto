@@ -23,6 +23,8 @@ const (
 	SubscriptionService_GetUpcomingForBilling_FullMethodName     = "/subscription.v1.SubscriptionService/GetUpcomingForBilling"
 	SubscriptionService_ListDueReminders_FullMethodName          = "/subscription.v1.SubscriptionService/ListDueReminders"
 	SubscriptionService_AdvanceBillingDates_FullMethodName       = "/subscription.v1.SubscriptionService/AdvanceBillingDates"
+	SubscriptionService_DeleteSubscriptionsByUser_FullMethodName = "/subscription.v1.SubscriptionService/DeleteSubscriptionsByUser"
+	SubscriptionService_ListCharges_FullMethodName               = "/subscription.v1.SubscriptionService/ListCharges"
 )
 
 // SubscriptionServiceClient is the client API for SubscriptionService service.
@@ -34,6 +36,8 @@ type SubscriptionServiceClient interface {
 	GetUpcomingForBilling(ctx context.Context, in *GetUpcomingForBillingRequest, opts ...grpc.CallOption) (*GetUpcomingForBillingResponse, error)
 	ListDueReminders(ctx context.Context, in *ListDueRemindersRequest, opts ...grpc.CallOption) (*ListDueRemindersResponse, error)
 	AdvanceBillingDates(ctx context.Context, in *AdvanceBillingDatesRequest, opts ...grpc.CallOption) (*AdvanceBillingDatesResponse, error)
+	DeleteSubscriptionsByUser(ctx context.Context, in *DeleteSubscriptionsByUserRequest, opts ...grpc.CallOption) (*DeleteSubscriptionsByUserResponse, error)
+	ListCharges(ctx context.Context, in *ListChargesRequest, opts ...grpc.CallOption) (*ListChargesResponse, error)
 }
 
 type subscriptionServiceClient struct {
@@ -85,6 +89,26 @@ func (c *subscriptionServiceClient) AdvanceBillingDates(ctx context.Context, in 
 	return out, nil
 }
 
+func (c *subscriptionServiceClient) DeleteSubscriptionsByUser(ctx context.Context, in *DeleteSubscriptionsByUserRequest, opts ...grpc.CallOption) (*DeleteSubscriptionsByUserResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteSubscriptionsByUserResponse)
+	err := c.cc.Invoke(ctx, SubscriptionService_DeleteSubscriptionsByUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *subscriptionServiceClient) ListCharges(ctx context.Context, in *ListChargesRequest, opts ...grpc.CallOption) (*ListChargesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListChargesResponse)
+	err := c.cc.Invoke(ctx, SubscriptionService_ListCharges_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SubscriptionServiceServer is the server API for SubscriptionService service.
 // All implementations must embed UnimplementedSubscriptionServiceServer
 // for forward compatibility.
@@ -94,6 +118,8 @@ type SubscriptionServiceServer interface {
 	GetUpcomingForBilling(context.Context, *GetUpcomingForBillingRequest) (*GetUpcomingForBillingResponse, error)
 	ListDueReminders(context.Context, *ListDueRemindersRequest) (*ListDueRemindersResponse, error)
 	AdvanceBillingDates(context.Context, *AdvanceBillingDatesRequest) (*AdvanceBillingDatesResponse, error)
+	DeleteSubscriptionsByUser(context.Context, *DeleteSubscriptionsByUserRequest) (*DeleteSubscriptionsByUserResponse, error)
+	ListCharges(context.Context, *ListChargesRequest) (*ListChargesResponse, error)
 	mustEmbedUnimplementedSubscriptionServiceServer()
 }
 
@@ -115,6 +141,12 @@ func (UnimplementedSubscriptionServiceServer) ListDueReminders(context.Context, 
 }
 func (UnimplementedSubscriptionServiceServer) AdvanceBillingDates(context.Context, *AdvanceBillingDatesRequest) (*AdvanceBillingDatesResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method AdvanceBillingDates not implemented")
+}
+func (UnimplementedSubscriptionServiceServer) DeleteSubscriptionsByUser(context.Context, *DeleteSubscriptionsByUserRequest) (*DeleteSubscriptionsByUserResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteSubscriptionsByUser not implemented")
+}
+func (UnimplementedSubscriptionServiceServer) ListCharges(context.Context, *ListChargesRequest) (*ListChargesResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListCharges not implemented")
 }
 func (UnimplementedSubscriptionServiceServer) mustEmbedUnimplementedSubscriptionServiceServer() {}
 func (UnimplementedSubscriptionServiceServer) testEmbeddedByValue()                             {}
@@ -209,6 +241,42 @@ func _SubscriptionService_AdvanceBillingDates_Handler(srv interface{}, ctx conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SubscriptionService_DeleteSubscriptionsByUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteSubscriptionsByUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SubscriptionServiceServer).DeleteSubscriptionsByUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SubscriptionService_DeleteSubscriptionsByUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SubscriptionServiceServer).DeleteSubscriptionsByUser(ctx, req.(*DeleteSubscriptionsByUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SubscriptionService_ListCharges_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListChargesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SubscriptionServiceServer).ListCharges(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SubscriptionService_ListCharges_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SubscriptionServiceServer).ListCharges(ctx, req.(*ListChargesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SubscriptionService_ServiceDesc is the grpc.ServiceDesc for SubscriptionService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -231,6 +299,14 @@ var SubscriptionService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AdvanceBillingDates",
 			Handler:    _SubscriptionService_AdvanceBillingDates_Handler,
+		},
+		{
+			MethodName: "DeleteSubscriptionsByUser",
+			Handler:    _SubscriptionService_DeleteSubscriptionsByUser_Handler,
+		},
+		{
+			MethodName: "ListCharges",
+			Handler:    _SubscriptionService_ListCharges_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

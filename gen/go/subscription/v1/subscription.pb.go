@@ -558,6 +558,298 @@ func (x *AdvanceBillingDatesResponse) GetTrialsConvertedCount() int64 {
 	return 0
 }
 
+type DeleteSubscriptionsByUserRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteSubscriptionsByUserRequest) Reset() {
+	*x = DeleteSubscriptionsByUserRequest{}
+	mi := &file_subscription_v1_subscription_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteSubscriptionsByUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteSubscriptionsByUserRequest) ProtoMessage() {}
+
+func (x *DeleteSubscriptionsByUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_subscription_v1_subscription_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteSubscriptionsByUserRequest.ProtoReflect.Descriptor instead.
+func (*DeleteSubscriptionsByUserRequest) Descriptor() ([]byte, []int) {
+	return file_subscription_v1_subscription_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *DeleteSubscriptionsByUserRequest) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+type DeleteSubscriptionsByUserResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	DeletedCount  int64                  `protobuf:"varint,1,opt,name=deleted_count,json=deletedCount,proto3" json:"deleted_count,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteSubscriptionsByUserResponse) Reset() {
+	*x = DeleteSubscriptionsByUserResponse{}
+	mi := &file_subscription_v1_subscription_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteSubscriptionsByUserResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteSubscriptionsByUserResponse) ProtoMessage() {}
+
+func (x *DeleteSubscriptionsByUserResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_subscription_v1_subscription_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteSubscriptionsByUserResponse.ProtoReflect.Descriptor instead.
+func (*DeleteSubscriptionsByUserResponse) Descriptor() ([]byte, []int) {
+	return file_subscription_v1_subscription_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *DeleteSubscriptionsByUserResponse) GetDeletedCount() int64 {
+	if x != nil {
+		return x.DeletedCount
+	}
+	return 0
+}
+
+type ListChargesRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	From          string                 `protobuf:"bytes,2,opt,name=from,proto3" json:"from,omitempty"` // YYYY-MM-DD, Asia/Bangkok, inclusive
+	To            string                 `protobuf:"bytes,3,opt,name=to,proto3" json:"to,omitempty"`     // YYYY-MM-DD, Asia/Bangkok, exclusive
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListChargesRequest) Reset() {
+	*x = ListChargesRequest{}
+	mi := &file_subscription_v1_subscription_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListChargesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListChargesRequest) ProtoMessage() {}
+
+func (x *ListChargesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_subscription_v1_subscription_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListChargesRequest.ProtoReflect.Descriptor instead.
+func (*ListChargesRequest) Descriptor() ([]byte, []int) {
+	return file_subscription_v1_subscription_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *ListChargesRequest) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *ListChargesRequest) GetFrom() string {
+	if x != nil {
+		return x.From
+	}
+	return ""
+}
+
+func (x *ListChargesRequest) GetTo() string {
+	if x != nil {
+		return x.To
+	}
+	return ""
+}
+
+type Charge struct {
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	Id                 string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	SubscriptionId     string                 `protobuf:"bytes,2,opt,name=subscription_id,json=subscriptionId,proto3" json:"subscription_id,omitempty"`
+	Name               string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"` // name, category and status are the subscription's current values
+	Category           string                 `protobuf:"bytes,4,opt,name=category,proto3" json:"category,omitempty"`
+	Type               string                 `protobuf:"bytes,5,opt,name=type,proto3" json:"type,omitempty"`       // monthly | yearly, as on the billing date
+	Amount             float64                `protobuf:"fixed64,6,opt,name=amount,proto3" json:"amount,omitempty"` // as on the billing date
+	ChargedAt          *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=charged_at,json=chargedAt,proto3" json:"charged_at,omitempty"`
+	SubscriptionStatus string                 `protobuf:"bytes,8,opt,name=subscription_status,json=subscriptionStatus,proto3" json:"subscription_status,omitempty"` // active | free_trial | inactive
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *Charge) Reset() {
+	*x = Charge{}
+	mi := &file_subscription_v1_subscription_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Charge) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Charge) ProtoMessage() {}
+
+func (x *Charge) ProtoReflect() protoreflect.Message {
+	mi := &file_subscription_v1_subscription_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Charge.ProtoReflect.Descriptor instead.
+func (*Charge) Descriptor() ([]byte, []int) {
+	return file_subscription_v1_subscription_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *Charge) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *Charge) GetSubscriptionId() string {
+	if x != nil {
+		return x.SubscriptionId
+	}
+	return ""
+}
+
+func (x *Charge) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *Charge) GetCategory() string {
+	if x != nil {
+		return x.Category
+	}
+	return ""
+}
+
+func (x *Charge) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+func (x *Charge) GetAmount() float64 {
+	if x != nil {
+		return x.Amount
+	}
+	return 0
+}
+
+func (x *Charge) GetChargedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ChargedAt
+	}
+	return nil
+}
+
+func (x *Charge) GetSubscriptionStatus() string {
+	if x != nil {
+		return x.SubscriptionStatus
+	}
+	return ""
+}
+
+type ListChargesResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Charges       []*Charge              `protobuf:"bytes,1,rep,name=charges,proto3" json:"charges,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListChargesResponse) Reset() {
+	*x = ListChargesResponse{}
+	mi := &file_subscription_v1_subscription_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListChargesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListChargesResponse) ProtoMessage() {}
+
+func (x *ListChargesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_subscription_v1_subscription_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListChargesResponse.ProtoReflect.Descriptor instead.
+func (*ListChargesResponse) Descriptor() ([]byte, []int) {
+	return file_subscription_v1_subscription_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *ListChargesResponse) GetCharges() []*Charge {
+	if x != nil {
+		return x.Charges
+	}
+	return nil
+}
+
 var File_subscription_v1_subscription_proto protoreflect.FileDescriptor
 
 const file_subscription_v1_subscription_proto_rawDesc = "" +
@@ -596,12 +888,34 @@ const file_subscription_v1_subscription_proto_rawDesc = "" +
 	"\x04date\x18\x01 \x01(\tR\x04date\"z\n" +
 	"\x1bAdvanceBillingDatesResponse\x12%\n" +
 	"\x0eadvanced_count\x18\x01 \x01(\x03R\radvancedCount\x124\n" +
-	"\x16trials_converted_count\x18\x02 \x01(\x03R\x14trialsConvertedCount2\xf2\x03\n" +
+	"\x16trials_converted_count\x18\x02 \x01(\x03R\x14trialsConvertedCount\";\n" +
+	" DeleteSubscriptionsByUserRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\"H\n" +
+	"!DeleteSubscriptionsByUserResponse\x12#\n" +
+	"\rdeleted_count\x18\x01 \x01(\x03R\fdeletedCount\"Q\n" +
+	"\x12ListChargesRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x12\n" +
+	"\x04from\x18\x02 \x01(\tR\x04from\x12\x0e\n" +
+	"\x02to\x18\x03 \x01(\tR\x02to\"\x89\x02\n" +
+	"\x06Charge\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12'\n" +
+	"\x0fsubscription_id\x18\x02 \x01(\tR\x0esubscriptionId\x12\x12\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\x12\x1a\n" +
+	"\bcategory\x18\x04 \x01(\tR\bcategory\x12\x12\n" +
+	"\x04type\x18\x05 \x01(\tR\x04type\x12\x16\n" +
+	"\x06amount\x18\x06 \x01(\x01R\x06amount\x129\n" +
+	"\n" +
+	"charged_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tchargedAt\x12/\n" +
+	"\x13subscription_status\x18\b \x01(\tR\x12subscriptionStatus\"H\n" +
+	"\x13ListChargesResponse\x121\n" +
+	"\acharges\x18\x01 \x03(\v2\x17.subscription.v1.ChargeR\acharges2\xd1\x05\n" +
 	"\x13SubscriptionService\x12\x82\x01\n" +
 	"\x19GetSubscriptionsForReport\x121.subscription.v1.GetSubscriptionsForReportRequest\x1a2.subscription.v1.GetSubscriptionsForReportResponse\x12{\n" +
 	"\x15GetUpcomingForBilling\x12-.subscription.v1.GetUpcomingForBillingRequest\x1a..subscription.v1.GetUpcomingForBillingResponse\"\x03\x88\x02\x01\x12g\n" +
 	"\x10ListDueReminders\x12(.subscription.v1.ListDueRemindersRequest\x1a).subscription.v1.ListDueRemindersResponse\x12p\n" +
-	"\x13AdvanceBillingDates\x12+.subscription.v1.AdvanceBillingDatesRequest\x1a,.subscription.v1.AdvanceBillingDatesResponseB\xcf\x01\n" +
+	"\x13AdvanceBillingDates\x12+.subscription.v1.AdvanceBillingDatesRequest\x1a,.subscription.v1.AdvanceBillingDatesResponse\x12\x82\x01\n" +
+	"\x19DeleteSubscriptionsByUser\x121.subscription.v1.DeleteSubscriptionsByUserRequest\x1a2.subscription.v1.DeleteSubscriptionsByUserResponse\x12X\n" +
+	"\vListCharges\x12#.subscription.v1.ListChargesRequest\x1a$.subscription.v1.ListChargesResponseB\xcf\x01\n" +
 	"\x13com.subscription.v1B\x11SubscriptionProtoP\x01ZHgithub.com/polar-bear-cu/sgt-proto/gen/go/subscription/v1;subscriptionv1\xa2\x02\x03SXX\xaa\x02\x0fSubscription.V1\xca\x02\x0fSubscription\\V1\xe2\x02\x1bSubscription\\V1\\GPBMetadata\xea\x02\x10Subscription::V1b\x06proto3"
 
 var (
@@ -616,7 +930,7 @@ func file_subscription_v1_subscription_proto_rawDescGZIP() []byte {
 	return file_subscription_v1_subscription_proto_rawDescData
 }
 
-var file_subscription_v1_subscription_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_subscription_v1_subscription_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
 var file_subscription_v1_subscription_proto_goTypes = []any{
 	(*Subscription)(nil),                      // 0: subscription.v1.Subscription
 	(*GetSubscriptionsForReportRequest)(nil),  // 1: subscription.v1.GetSubscriptionsForReportRequest
@@ -628,28 +942,39 @@ var file_subscription_v1_subscription_proto_goTypes = []any{
 	(*ListDueRemindersResponse)(nil),          // 7: subscription.v1.ListDueRemindersResponse
 	(*AdvanceBillingDatesRequest)(nil),        // 8: subscription.v1.AdvanceBillingDatesRequest
 	(*AdvanceBillingDatesResponse)(nil),       // 9: subscription.v1.AdvanceBillingDatesResponse
-	(*timestamppb.Timestamp)(nil),             // 10: google.protobuf.Timestamp
+	(*DeleteSubscriptionsByUserRequest)(nil),  // 10: subscription.v1.DeleteSubscriptionsByUserRequest
+	(*DeleteSubscriptionsByUserResponse)(nil), // 11: subscription.v1.DeleteSubscriptionsByUserResponse
+	(*ListChargesRequest)(nil),                // 12: subscription.v1.ListChargesRequest
+	(*Charge)(nil),                            // 13: subscription.v1.Charge
+	(*ListChargesResponse)(nil),               // 14: subscription.v1.ListChargesResponse
+	(*timestamppb.Timestamp)(nil),             // 15: google.protobuf.Timestamp
 }
 var file_subscription_v1_subscription_proto_depIdxs = []int32{
-	10, // 0: subscription.v1.Subscription.billing_date:type_name -> google.protobuf.Timestamp
-	10, // 1: subscription.v1.Subscription.ft_end_date:type_name -> google.protobuf.Timestamp
+	15, // 0: subscription.v1.Subscription.billing_date:type_name -> google.protobuf.Timestamp
+	15, // 1: subscription.v1.Subscription.ft_end_date:type_name -> google.protobuf.Timestamp
 	0,  // 2: subscription.v1.GetSubscriptionsForReportResponse.subscription:type_name -> subscription.v1.Subscription
 	0,  // 3: subscription.v1.GetUpcomingForBillingResponse.subscription:type_name -> subscription.v1.Subscription
 	0,  // 4: subscription.v1.DueReminder.subscription:type_name -> subscription.v1.Subscription
 	6,  // 5: subscription.v1.ListDueRemindersResponse.reminders:type_name -> subscription.v1.DueReminder
-	1,  // 6: subscription.v1.SubscriptionService.GetSubscriptionsForReport:input_type -> subscription.v1.GetSubscriptionsForReportRequest
-	3,  // 7: subscription.v1.SubscriptionService.GetUpcomingForBilling:input_type -> subscription.v1.GetUpcomingForBillingRequest
-	5,  // 8: subscription.v1.SubscriptionService.ListDueReminders:input_type -> subscription.v1.ListDueRemindersRequest
-	8,  // 9: subscription.v1.SubscriptionService.AdvanceBillingDates:input_type -> subscription.v1.AdvanceBillingDatesRequest
-	2,  // 10: subscription.v1.SubscriptionService.GetSubscriptionsForReport:output_type -> subscription.v1.GetSubscriptionsForReportResponse
-	4,  // 11: subscription.v1.SubscriptionService.GetUpcomingForBilling:output_type -> subscription.v1.GetUpcomingForBillingResponse
-	7,  // 12: subscription.v1.SubscriptionService.ListDueReminders:output_type -> subscription.v1.ListDueRemindersResponse
-	9,  // 13: subscription.v1.SubscriptionService.AdvanceBillingDates:output_type -> subscription.v1.AdvanceBillingDatesResponse
-	10, // [10:14] is the sub-list for method output_type
-	6,  // [6:10] is the sub-list for method input_type
-	6,  // [6:6] is the sub-list for extension type_name
-	6,  // [6:6] is the sub-list for extension extendee
-	0,  // [0:6] is the sub-list for field type_name
+	15, // 6: subscription.v1.Charge.charged_at:type_name -> google.protobuf.Timestamp
+	13, // 7: subscription.v1.ListChargesResponse.charges:type_name -> subscription.v1.Charge
+	1,  // 8: subscription.v1.SubscriptionService.GetSubscriptionsForReport:input_type -> subscription.v1.GetSubscriptionsForReportRequest
+	3,  // 9: subscription.v1.SubscriptionService.GetUpcomingForBilling:input_type -> subscription.v1.GetUpcomingForBillingRequest
+	5,  // 10: subscription.v1.SubscriptionService.ListDueReminders:input_type -> subscription.v1.ListDueRemindersRequest
+	8,  // 11: subscription.v1.SubscriptionService.AdvanceBillingDates:input_type -> subscription.v1.AdvanceBillingDatesRequest
+	10, // 12: subscription.v1.SubscriptionService.DeleteSubscriptionsByUser:input_type -> subscription.v1.DeleteSubscriptionsByUserRequest
+	12, // 13: subscription.v1.SubscriptionService.ListCharges:input_type -> subscription.v1.ListChargesRequest
+	2,  // 14: subscription.v1.SubscriptionService.GetSubscriptionsForReport:output_type -> subscription.v1.GetSubscriptionsForReportResponse
+	4,  // 15: subscription.v1.SubscriptionService.GetUpcomingForBilling:output_type -> subscription.v1.GetUpcomingForBillingResponse
+	7,  // 16: subscription.v1.SubscriptionService.ListDueReminders:output_type -> subscription.v1.ListDueRemindersResponse
+	9,  // 17: subscription.v1.SubscriptionService.AdvanceBillingDates:output_type -> subscription.v1.AdvanceBillingDatesResponse
+	11, // 18: subscription.v1.SubscriptionService.DeleteSubscriptionsByUser:output_type -> subscription.v1.DeleteSubscriptionsByUserResponse
+	14, // 19: subscription.v1.SubscriptionService.ListCharges:output_type -> subscription.v1.ListChargesResponse
+	14, // [14:20] is the sub-list for method output_type
+	8,  // [8:14] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_subscription_v1_subscription_proto_init() }
@@ -663,7 +988,7 @@ func file_subscription_v1_subscription_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_subscription_v1_subscription_proto_rawDesc), len(file_subscription_v1_subscription_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   15,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

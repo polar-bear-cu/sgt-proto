@@ -66,6 +66,27 @@ message DeleteSubscriptionsByUserResponse {
   int64 deleted_count = 1;
 }
 
+message ListChargesRequest {
+  string user_id = 1;
+  string from = 2; // YYYY-MM-DD, Asia/Bangkok, inclusive
+  string to = 3; // YYYY-MM-DD, Asia/Bangkok, exclusive
+}
+
+message Charge {
+  string id = 1;
+  string subscription_id = 2;
+  string name = 3; // name, category and status are the subscription's current values
+  string category = 4;
+  string type = 5; // monthly | yearly, as on the billing date
+  double amount = 6; // as on the billing date
+  google.protobuf.Timestamp charged_at = 7;
+  string subscription_status = 8; // active | free_trial | inactive
+}
+
+message ListChargesResponse {
+  repeated Charge charges = 1;
+}
+
 service SubscriptionService {
   rpc GetSubscriptionsForReport(GetSubscriptionsForReportRequest) returns (GetSubscriptionsForReportResponse);
   rpc GetUpcomingForBilling(GetUpcomingForBillingRequest) returns (GetUpcomingForBillingResponse) {
@@ -74,4 +95,5 @@ service SubscriptionService {
   rpc ListDueReminders(ListDueRemindersRequest) returns (ListDueRemindersResponse);
   rpc AdvanceBillingDates(AdvanceBillingDatesRequest) returns (AdvanceBillingDatesResponse);
   rpc DeleteSubscriptionsByUser(DeleteSubscriptionsByUserRequest) returns (DeleteSubscriptionsByUserResponse);
+  rpc ListCharges(ListChargesRequest) returns (ListChargesResponse);
 }

@@ -31,6 +31,7 @@ type User struct {
 	CreatedAt      string                 `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	LastLoginAt    string                 `protobuf:"bytes,7,opt,name=last_login_at,json=lastLoginAt,proto3" json:"last_login_at,omitempty"`
 	TimeInAdvanced int32                  `protobuf:"varint,8,opt,name=time_in_advanced,json=timeInAdvanced,proto3" json:"time_in_advanced,omitempty"`
+	Currency       string                 `protobuf:"bytes,9,opt,name=currency,proto3" json:"currency,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -119,6 +120,13 @@ func (x *User) GetTimeInAdvanced() int32 {
 		return x.TimeInAdvanced
 	}
 	return 0
+}
+
+func (x *User) GetCurrency() string {
+	if x != nil {
+		return x.Currency
+	}
+	return ""
 }
 
 type FindOrCreateUserRequest struct {
@@ -242,12 +250,14 @@ func (x *FindOrCreateUserResponse) GetCreated() bool {
 }
 
 type UpdateProfileRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	DisplayName   string                 `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
-	PictureUrl    string                 `protobuf:"bytes,3,opt,name=picture_url,json=pictureUrl,proto3" json:"picture_url,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	DisplayName    string                 `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
+	PictureUrl     string                 `protobuf:"bytes,3,opt,name=picture_url,json=pictureUrl,proto3" json:"picture_url,omitempty"`
+	TimeInAdvanced *int32                 `protobuf:"varint,4,opt,name=time_in_advanced,json=timeInAdvanced,proto3,oneof" json:"time_in_advanced,omitempty"`
+	Currency       *string                `protobuf:"bytes,5,opt,name=currency,proto3,oneof" json:"currency,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *UpdateProfileRequest) Reset() {
@@ -297,6 +307,20 @@ func (x *UpdateProfileRequest) GetDisplayName() string {
 func (x *UpdateProfileRequest) GetPictureUrl() string {
 	if x != nil {
 		return x.PictureUrl
+	}
+	return ""
+}
+
+func (x *UpdateProfileRequest) GetTimeInAdvanced() int32 {
+	if x != nil && x.TimeInAdvanced != nil {
+		return *x.TimeInAdvanced
+	}
+	return 0
+}
+
+func (x *UpdateProfileRequest) GetCurrency() string {
+	if x != nil && x.Currency != nil {
+		return *x.Currency
 	}
 	return ""
 }
@@ -717,7 +741,7 @@ var File_user_v1_user_proto protoreflect.FileDescriptor
 
 const file_user_v1_user_proto_rawDesc = "" +
 	"\n" +
-	"\x12user/v1/user.proto\x12\auser.v1\"\xe2\x01\n" +
+	"\x12user/v1/user.proto\x12\auser.v1\"\xfe\x01\n" +
 	"\x04User\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
 	"\x05email\x18\x02 \x01(\tR\x05email\x12\x12\n" +
@@ -728,7 +752,8 @@ const file_user_v1_user_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\x06 \x01(\tR\tcreatedAt\x12\"\n" +
 	"\rlast_login_at\x18\a \x01(\tR\vlastLoginAt\x12(\n" +
-	"\x10time_in_advanced\x18\b \x01(\x05R\x0etimeInAdvanced\"\x83\x01\n" +
+	"\x10time_in_advanced\x18\b \x01(\x05R\x0etimeInAdvanced\x12\x1a\n" +
+	"\bcurrency\x18\t \x01(\tR\bcurrency\"\x83\x01\n" +
 	"\x17FindOrCreateUserRequest\x12\x14\n" +
 	"\x05email\x18\x01 \x01(\tR\x05email\x12\x1d\n" +
 	"\n" +
@@ -738,12 +763,16 @@ const file_user_v1_user_proto_rawDesc = "" +
 	"pictureUrl\"W\n" +
 	"\x18FindOrCreateUserResponse\x12!\n" +
 	"\x04user\x18\x01 \x01(\v2\r.user.v1.UserR\x04user\x12\x18\n" +
-	"\acreated\x18\x02 \x01(\bR\acreated\"j\n" +
+	"\acreated\x18\x02 \x01(\bR\acreated\"\xdc\x01\n" +
 	"\x14UpdateProfileRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12!\n" +
 	"\fdisplay_name\x18\x02 \x01(\tR\vdisplayName\x12\x1f\n" +
 	"\vpicture_url\x18\x03 \x01(\tR\n" +
-	"pictureUrl\":\n" +
+	"pictureUrl\x12-\n" +
+	"\x10time_in_advanced\x18\x04 \x01(\x05H\x00R\x0etimeInAdvanced\x88\x01\x01\x12\x1f\n" +
+	"\bcurrency\x18\x05 \x01(\tH\x01R\bcurrency\x88\x01\x01B\x13\n" +
+	"\x11_time_in_advancedB\v\n" +
+	"\t_currency\":\n" +
 	"\x15UpdateProfileResponse\x12!\n" +
 	"\x04user\x18\x01 \x01(\v2\r.user.v1.UserR\x04user\" \n" +
 	"\x0eGetUserRequest\x12\x0e\n" +
@@ -833,6 +862,7 @@ func file_user_v1_user_proto_init() {
 	if File_user_v1_user_proto != nil {
 		return
 	}
+	file_user_v1_user_proto_msgTypes[3].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
